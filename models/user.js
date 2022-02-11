@@ -32,9 +32,9 @@ userSchema.pre("save", async function(next){
 });
 
 
-userSchema.method.camparePassword = async (oldPassword, next)=>{
+userSchema.methods.camparePassword = async function(oldPassword, next){
     try{
-        let isMatch = await bcrypt.compare(old, this.password);
+        let isMatch = await bcrypt.compare(oldPassword, this.password);
         return isMatch;
     }catch(err){
         next(err);
