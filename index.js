@@ -14,22 +14,19 @@ app.use(bodyParser.json());
 //default port of the server      
 const PORT = 8081;
 
-//errors handlers
-
-app.use(function(req, res, next){
-    // let err = new Error("new Error");
-    // err.status = 404;
-    // next(err);
-    next();
-});
-
-
 app.use(errorHandler);
-
 
 //calling ath routers
 
 app.use("/api/auth", authRoutes);
+
+//errors handlers
+
+app.use((req, res, next) => {
+    let err = new Error("Not Found");
+    err.status = 404;
+    next(err);
+  });
 
 //server start
 app.listen(PORT, ()=>{

@@ -20,12 +20,11 @@ exports.signUp = async (req, res, next)=>{
             token
         });
     }catch(err){
+        let msg = err.message;
+        console.log(msg);
         if(err.code === 11000){
-            err.message = "username and/or password already taken!";
+            err.message = "username and/or email already taken!";
         }
-        return next({
-            status: 400,
-            error: err.message
-        });
+        return next(new Error(err));
     }
 };

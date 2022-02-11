@@ -19,7 +19,7 @@ const userSchema = new mongoose.Schema({
     profileImageUrl: String
 });
 
-userSchema.pre("save", async (next)=>{
+userSchema.pre("save", async function(next){
     try{
         if(!this.isModified("password"))
             return next();
