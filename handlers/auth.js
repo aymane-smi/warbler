@@ -4,8 +4,7 @@ const db     = require("../models"),
 
 exports.signIn = async(req, res, next)=>{
     try{
-        let user = db.user.findOne({email: req.body.email});
-        console.log("user founded");
+        let user = await db.user.findOne({username: req.body.username});
         let isMatch = await user.camparePassword(req.body.password);
         if(isMatch){
             const {id, username, profileImageUrl} = user;
@@ -21,7 +20,7 @@ exports.signIn = async(req, res, next)=>{
                 token
             });
         }else{
-            console.log("inside eles");
+            console.log("inside else");
             return next(res.status(400).json({
                 err: "Invalid email/password"
             }));
@@ -29,8 +28,7 @@ exports.signIn = async(req, res, next)=>{
     }catch(err){
         console.log("inside the catch");
         return next(res.status(400).json({
-            err: "Invalid email/password"
-
+            err: err.message
         }));
     }
 };

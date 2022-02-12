@@ -1,10 +1,12 @@
 require("dotenv").config();
-const express      = require("express"),
-      app          = express(),
-      cors         = require("cors"),
-      bodyParser   = require("body-parser"),
-      errorHandler = require("./handlers/errorHandler"),
-      authRoutes   = require("./routes/auth");
+const express                            = require("express"),
+      app                                = express(),
+      cors                               = require("cors"),
+      bodyParser                         = require("body-parser"),
+      errorHandler                       = require("./handlers/errorHandler"),
+      authRoutes                         = require("./routes/auth"),
+      messageRoutes                      = require("./routes/message"),
+      {loginRequired, ensureCorrectUser} = require("./middleware/auth");
 
 //server configuration
 
@@ -16,9 +18,13 @@ const PORT = 8081;
 
 app.use(errorHandler);
 
-//calling ath routers
+//calling all routers
 
 app.use("/api/auth", authRoutes);
+app.use("/api/users/:id/message", 
+                                loginRequired,
+                                ensureCorrectUser,
+                                messageRoutes);
 
 //errors handlers
 

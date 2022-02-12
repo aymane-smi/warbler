@@ -4,3 +4,4 @@ mongoose.Promise = Promise;
 mongoose.connect("mongodb://localhost/warbler");
 
 module.exports.user = require("./user");
+module.exports.message = require("./message");
