@@ -6,6 +6,7 @@ const express                            = require("express"),
       errorHandler                       = require("./handlers/errorHandler"),
       authRoutes                         = require("./routes/auth"),
       messageRoutes                      = require("./routes/message"),
+      db                                 = require("./models"),
       {loginRequired, ensureCorrectUser} = require("./middleware/auth");
 
 //server configuration
@@ -25,6 +26,14 @@ app.use("/api/users/:id/message",
                                 loginRequired,
                                 ensureCorrectUser,
                                 messageRoutes);
+app.get("/api/messages", loginRequired, async function(req, res, next){
+  try {
+    let messages = await db.message.find().sort({createdAt: "desc"}).populate("user", {username: true, profileImageUrl: true});
+    return res.status(200).json(messages);
+  } catch (err) {
+    return next(err);
+  }
+});
 
 //errors handlers
 

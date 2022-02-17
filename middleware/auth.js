@@ -24,16 +24,16 @@ exports.ensureCorrectUser = async function(req, res, next){
     try{
         const token = req.headers.authorization.split(" ")[1];
         jwt.verify(token, process.env.SECRET_KEY, (err, decoded)=>{
-            if(decoded && decoded === req.params.id)
+            if(decoded && (decoded.id === req.params.id))
                 return next();
             else
                 return next(res.status(401).json({
-                    err: "Unauthorized"
+                    err: "Unauthorized else"
                 }));
         });
     }catch(err){
         return next(res.status(401).json({
-            err: "Unauthorized"
+            err: "Unauthorized catch"
         }));
     }
 };

@@ -13,6 +13,7 @@ exports.createMessage = async function(req, res, next){
             username: true,
             profileImageUrl: true
         });
+        console.log(foundMessage);
         return res.status(200).json(foundMessage);
     }catch(err){
         return next(err);

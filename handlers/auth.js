@@ -4,7 +4,7 @@ const db     = require("../models"),
 
 exports.signIn = async(req, res, next)=>{
     try{
-        let user = await db.user.findOne({username: req.body.username});
+        let user = await db.user.findOne({email: req.body.email});
         let isMatch = await user.camparePassword(req.body.password);
         if(isMatch){
             const {id, username, profileImageUrl} = user;
