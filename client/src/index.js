@@ -5,7 +5,18 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {Provider} from 'react-redux';
 import {configureStore} from './store';
+import { setTokenHeaders } from './services/api';
+import { setCurrentUser } from './store/actions/auth';
+import jwtDecode from 'jwt-decode';
 const store = configureStore();
+if(localStorage.token){
+  setTokenHeaders(localStorage.token);
+  try{
+    store.dispatch(setCurrentUser(jwtDecode(localStorage.token)));
+  }catch(err){
+    store.dispatch(setCurrentUser({}))
+  }
+}
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
